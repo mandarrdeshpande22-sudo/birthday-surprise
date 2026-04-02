@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For My Chandrakore 💖</title>
+
+<style>
+body {
+    margin:0;
+    font-family: Arial;
+    text-align:center;
+    background: linear-gradient(to right,#ff758c,#ff7eb3);
+    color:white;
+}
+
+.box {
+    margin:20px auto;
+    padding:20px;
+    max-width:700px;
+    background:rgba(255,255,255,0.15);
+    border-radius:15px;
+}
+
+.hidden {display:none;}
+
+input,button {
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    margin-top:10px;
+}
+
+/* effects */
+.heart {
+    position:fixed;
+    bottom:0;
+    font-size:20px;
+    animation:floatUp 5s linear;
+}
+@keyframes floatUp {
+    to { transform:translateY(-100vh); opacity:0; }
+}
+
+.confetti {
+    position:fixed;
+    width:8px;
+    height:8px;
+    top:0;
+    animation:fall 5s linear;
+}
+@keyframes fall {
+    to { transform:translateY(100vh); }
+}
+
+.firework {
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:white;
+    animation:explode 1s forwards;
+}
+@keyframes explode {
+    to { transform:scale(12); opacity:0; }
+}
+
+/* popup */
+#lovePopup {
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:white;
+    color:#ff4d6d;
+    padding:30px;
+    border-radius:20px;
+    font-size:26px;
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎁 A Special Surprise 🎁</h1>
+
+<div id="quiz" class="box">
+    <p>What does he lovingly call you? 😉</p>
+    <input id="answer">
+    <br>
+    <button onclick="checkAnswer()">Unlock 🔐</button>
+</div>
+
+<div id="birthday" class="box hidden">
+    <h1>🎉 Happy Birthday Rutu 🎉</h1>
+    <h2>My Chandrakore 🌙❤️</h2>
+</div>
+
+<div id="poem" class="box hidden">
+    <p id="poemText" style="line-height:1.8; text-align:left;"></p>
+</div>
+
+<div id="lovePopup">I Love You ❤️</div>
+
+<audio id="music" src="music.mp3"></audio>
+
+<script>
+
+const poemLines = [
+"माझ्या चांद्रकोरीसाठी… 🌙",
+"",
+"अग ऋतू",
+"दरवेळी तुझ्यासाठी काहीतरी सुंदर लिहायला बसतो,",
+"पण मग विचार येतो अरे यार, हे शब्द तिच्यासाठी पुरेसे आहेत का? 😄",
+"",
+"चंद्राशी तुलना करावी म्हणतो,",
+"पण मग आठवतं चंद्रालाही डाग आहेत…",
+"आणि तू तर full HD beauty आहेस, zero defects! ✨",
+"",
+"तुझ्या सौंदर्यासाठी अजून शब्दच शोधले नाहीत कुणी,",
+"Dictionary वाल्यांनी पण हार मानली असेल बहुतेक! 📖😂",
+"",
+"तू हसतेस ना…",
+"तेव्हा वाटतं WiFi full speed वर आलंय ❤️",
+"आणि तू रागावलीस की…",
+"माझं network direct “No Signal” 😭📶",
+"",
+"तुला तो Voice over internet cha किस्सा आठवतो ना?",
+"",
+"पण एक सांगतो,",
+"तुझं हसू असंच कायम राहू दे,",
+"कारण तेच माझं daily happiness package आहे 😍",
+"",
+"Happy Birthday Rutudi mazi Chandrakore 🌙",
+"mazi babdi mazi rasmalai mazi rabdi 🎂❤️",
+"mazi jaan",
+"",
+"आणि हो…",
+"माझी best friend ❤️",
+"",
+"तू इतकी सुंदर आहेस की,",
+"filter पण म्हणतो — “मला job नको!” 📸😆",
+"",
+"तुझ्यासोबत असताना वेळ उडतो,",
+"आणि तू नसलीस की clock पण slow motion मध्ये जातं ⏰🥲",
+"",
+"पण खरं सांगायचं तर…",
+"तू फक्त सुंदर नाहीस,",
+"तू माझं peace आहेस,",
+"माझं happiness आहेस,",
+"आणि माझं daily reason to smile आहेस ❤️",
+"",
+"तुम्ही नेहमी हसत राहा 😊",
+"आणि हो… थोडं कमी रागाव, नाहीतर माझं system hang होतं 😜💻",
+"",
+"माझे नेहमी लाड करत रहा म्हणजे माझे system smooth chalat rahil ❤️",
+"",
+"🎂 Happy Birthday Rutudi 🎂",
+"",
+"From तुझा Mandudi 💖"
+];
+
+function checkAnswer(){
+    let ans=document.getElementById("answer").value.toLowerCase();
+
+    if(ans.includes("chandrakore")){
+        document.getElementById("quiz").style.display="none";
+
+        document.getElementById("music").play().catch(()=>{});
+
+        document.getElementById("birthday").classList.remove("hidden");
+
+        startHearts();
+        startConfetti();
+        startFireworks();
+
+        setTimeout(()=>{
+            document.getElementById("poem").classList.remove("hidden");
+            typeLines();
+        },2000);
+    } else {
+        alert("Wrong answer 😜");
+    }
+}
+
+function typeLines(){
+    let i=0;
+    function showLine(){
+        if(i<poemLines.length){
+            document.getElementById("poemText").innerHTML += poemLines[i] + "<br>";
+            i++;
+            setTimeout(showLine,400);
+        } else {
+            showLovePopup();
+        }
+    }
+    showLine();
+}
+
+function showLovePopup(){
+    setTimeout(()=>{
+        document.getElementById("lovePopup").style.display="block";
+    },2000);
+}
+
+/* effects */
+function startHearts(){
+    setInterval(()=>{
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerText="💖";
+        h.style.left=Math.random()*100+"vw";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),5000);
+    },300);
+}
+
+function startConfetti(){
+    setInterval(()=>{
+        let c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),5000);
+    },200);
+}
+
+function startFireworks(){
+    setInterval(()=>{
+        let f=document.createElement("div");
+        f.className="firework";
+        f.style.left=Math.random()*100+"vw";
+        f.style.top=Math.random()*50+"vh";
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1000);
+    },800);
+}
+
+</script>
+
+</body>
+</html>
